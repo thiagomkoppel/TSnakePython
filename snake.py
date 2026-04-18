@@ -23,7 +23,7 @@ class Snake:
     def get_dir(self):
         return self._dir
     
-    def get_head(self):
+    def get_head_image(self):
         return self._head_set
 
     def set_head(self, image):
@@ -37,6 +37,9 @@ class Snake:
 
     def pop(self):
         self._nods.pop()
+
+    def grow(self):
+        self._nods.append(self._nods[-1])
 
     
 

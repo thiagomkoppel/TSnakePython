@@ -13,6 +13,7 @@ class Game:
     _snake = None
     _running = None
     _head_images = []
+    _dir_flag = True
     
     def __init__(self):
         pygame.init()
@@ -49,18 +50,23 @@ class Game:
                     self._screen.fill(settings.BACKGROUND_RGB)
                     self._snake.pop()  # remove tail unless snake ate fruit
                     if self.detect_overlap("snake"): settings.GAMEOVER = 0 
-                    if self.detect_overlap("apple"): self.grow()                
+                    if self.detect_overlap("apple"): self.grow()        
+                    self._dir_flag = True        
                      
 
-                elif event.type == pygame.KEYDOWN:
+                elif event.type == pygame.KEYDOWN and self._dir_flag:
                     if event.key == pygame.K_RIGHT and self._snake.get_dir() != settings.DIRECTION_LEFT:
                         self._snake.set_dir(0)
+                        self._dir_flag = False                        
                     elif event.key == pygame.K_LEFT and self._snake.get_dir() != settings.DIRECTION_RIGHT:
                         self._snake.set_dir(2)
+                        self._dir_flag = False
                     elif event.key == pygame.K_UP and self._snake.get_dir() != settings.DIRECTION_DOWN:
                         self._snake.set_dir(3)
+                        self._dir_flag = False
                     elif event.key == pygame.K_DOWN and self._snake.get_dir() != settings.DIRECTION_UP:
                         self._snake.set_dir(1)
+                        self._dir_flag = False
                     
             self._screen.blit(self._snake.get_head_image(), self._snake.get_nod(0)) 
             self.reload_screen()      
@@ -107,19 +113,30 @@ class Game:
 
     def calculate_move(self,head_x, head_y):        
         if self._snake.get_dir() == settings.DIRECTION_RIGHT:
+            if head_x > settings.SCREEN_WIDTH - settings.CELL_SIZE:
+                head_x = 0 - settings.CELL_SIZE
             new_head = (head_x + settings.CELL_SIZE, head_y)
             head_image = self._head_images[settings.DIRECTION_RIGHT]
         elif self._snake.get_dir() == settings.DIRECTION_LEFT:
+            if head_x < 0:
+                head_x = settings.SCREEN_WIDTH
             new_head = (head_x - settings.CELL_SIZE, head_y)
             head_image = self._head_images[settings.DIRECTION_LEFT]
         elif self._snake.get_dir() == settings.DIRECTION_UP:
+            if head_y < 0:
+                head_y = settings.SCREEN_HEIGHT
             new_head = (head_x, head_y - settings.CELL_SIZE)
             head_image = self._head_images[settings.DIRECTION_UP]
         elif self._snake.get_dir() == settings.DIRECTION_DOWN:
+            if head_y > settings.SCREEN_HEIGHT - settings.CELL_SIZE:
+                head_y = 0 - settings.CELL_SIZE
             new_head = (head_x, head_y + settings.CELL_SIZE)
             head_image = self._head_images[settings.DIRECTION_DOWN]
         return new_head, head_image
     
+    def normalize_position(self, pos):
+        return pos - settings.CELL_SIZE
+
     def reload_screen(self):
         self.load_apple()
         for nod in self._snake.get_snake():

@@ -22,8 +22,8 @@ class Game:
         self.load_head_images()
         self._matrix = np.zeros((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
         self._screen.fill(settings.BACKGROUND_RGB)
-        self.load_apple()
         self.load_snake()
+        self.load_apple()
         self.GameLoop(self._screen.get_screen())
         pygame.quit()
 
@@ -94,6 +94,9 @@ class Game:
     def get_random_position(self):
         row = random.randrange(0, self._matrix.shape[0], settings.CELL_SIZE)
         col = random.randrange(0, self._matrix.shape[1], settings.CELL_SIZE)
+        if self._snake:
+            if (row, col) in self._snake.get_snake():
+                row, col = self.get_random_position()
         return (row, col)
     
     def load_apple(self):

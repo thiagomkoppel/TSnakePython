@@ -1,26 +1,21 @@
 import pygame
 import settings
 import random
-import numpy as np
 from screen import Screen
 from snake import Snake
 
 class Game:
-    
-    _matrix = None
-    _screen = None
-    _apple = None
-    _snake = None
-    _running = None
-    _head_images = []
-    _dir_flag = True
-    
+        
     def __init__(self):
+        self._gameover = 1
+        self._apple = None
+        self._snake = None
+        self._running = None
+        self._dir_flag = True
+        self._head_images = []
         pygame.init()
-        settings.load_images()
         self._screen = Screen()
         self.load_head_images()
-        self._matrix = np.zeros((settings.SCREEN_WIDTH, settings.SCREEN_HEIGHT))
         self._screen.fill(settings.BACKGROUND_RGB)
         self.load_snake()
         self.load_apple()
@@ -43,13 +38,12 @@ class Game:
                     head_x, head_y = self._snake.get_nod(0)
                     move, head_image = self.calculate_move(head_x, head_y)
                     self._snake.set_head(head_image)  
-                    self._snake.insert(0, move)                    
-                    self._screen.draw_rect(head_x, head_y)
+                    self._snake.insert(0, move)       
                    
                     self._screen.blit(settings.SNAKE_BODY_IMAGE, (head_x, head_y))
                     self._screen.fill(settings.BACKGROUND_RGB)
                     self._snake.pop()  # remove tail unless snake ate fruit
-                    if self.detect_overlap("snake"): settings.GAMEOVER = 0 
+                    if self.detect_overlap("snake"): self._gameover = 0 
                     if self.detect_overlap("apple"): self.grow()        
                     self._dir_flag = True        
                      
@@ -75,12 +69,12 @@ class Game:
             clock.tick(settings.LOOP_PER_SECOND)          
 
     def set_game_status(self):
-        if settings.GAMEOVER == 0:
+        if self._gameover == 0:
             self._running = False
             #add gameover message
 
     def load_head_images(self):
-        head_image = settings.SNAKE_HEAD_IMAGE.convert_alpha()
+        head_image = settings.SNAKE_HEAD_IMAGE
         head_image = pygame.transform.scale(head_image, (settings.CELL_SIZE, settings.CELL_SIZE))        
         self._head_images.append(pygame.transform.rotate(head_image, -90)) 
         self._head_images.append(pygame.transform.rotate(head_image, 180))
@@ -92,24 +86,24 @@ class Game:
         self._snake.grow()
 
     def get_random_position(self):
-        row = random.randrange(0, self._matrix.shape[0], settings.CELL_SIZE)
-        col = random.randrange(0, self._matrix.shape[1], settings.CELL_SIZE)
-        if self._snake:
-            if (row, col) in self._snake.get_snake():
-                row, col = self.get_random_position()
-        return (row, col)
+        x = random.randrange(0, settings.SCREEN_WIDTH, settings.CELL_SIZE)
+        y = random.randrange(0, settings.SCREEN_HEIGHT, settings.CELL_SIZE)
+        pos = (x, y)
+        if self._snake and pos in self._snake.get_snake():
+            return self.get_random_position()
+        return pos
     
     def load_apple(self):
         if not self._apple:
             self._apple = self.get_random_position()
-            self._screen.blit(settings.APPLE_IMAGE.convert_alpha(), self._apple)
+            self._screen.blit(settings.APPLE_IMAGE, self._apple)
         else:
-            self._screen.blit(settings.APPLE_IMAGE.convert_alpha(), self._apple)            
+            self._screen.blit(settings.APPLE_IMAGE, self._apple)            
 
     def load_snake(self):
         self._snake = Snake(self.get_random_position())
         if len(self._snake.get_snake()) > 1:
-            self._screen.blit(settings.SNAKE_BODY_IMAGE.convert_alpha(), self._snake.get_nod(0))
+            self._screen.blit(settings.SNAKE_BODY_IMAGE, self._snake.get_nod(0))
         else:
             self._screen.blit(self._head_images[settings.DIRECTION_RIGHT], self._snake.get_nod(0))
             self._snake.set_head(self._head_images[settings.DIRECTION_RIGHT])

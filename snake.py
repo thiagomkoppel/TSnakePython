@@ -3,13 +3,10 @@ import settings
 
 class Snake:
 
-    _nods = []
-    _dir = settings.DIRECTION_UP
-    _head_set = None
-
     def __init__(self, position):
-        self._nods.append(position)
+        self._nods = [position]
         self._dir = self.get_random_dir()
+        self._head_set = None
 
     def get_random_dir(self):
         return random.randint(0, 3)

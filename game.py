@@ -30,23 +30,22 @@ class Game:
         while self._running:
             
             if not self._apple: self.load_apple()
-            head_x, head_y = self._snake.get_node(0)
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self._running = False
                 elif event.type == settings.MOVE_EVENT:
-                    
+                    head_x, head_y = self._snake.get_node(0)
                     move, head_image = self.calculate_move(head_x, head_y)
                     self._snake.set_head(head_image)  
-                    self._snake.insert(0, move)       
-                   
-
+                    self._snake.insert(0, move)                         
                     if self.snake_hits_itself():
                         self._gameover = 0
-                    if self.rectangles_overlap(self._snake.get_node(0), self._apple, settings.CELL_SIZE):
+                    elif self._snake.get_node(0) == self._apple:
                         self.grow()
                         self.load_apple()
-                    self._snake.pop() #removes last node due to snake movement                             
+                    
+                    self._snake.pop() #removes last node due to snake movement               
                     self._dir_flag = True        
                      
 
@@ -130,9 +129,6 @@ class Game:
             head_image = self._head_images[settings.DIRECTION_DOWN]
         return new_head, head_image
     
-    def normalize_position(self, pos):
-        return pos - settings.CELL_SIZE
-
     def snake_hits_itself(self):
         head = self._snake.get_node(0)
         body = self._snake.get_snake()[1:]

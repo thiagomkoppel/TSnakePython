@@ -12,9 +12,6 @@ class Screen:
     def get_screen(self):
         return self._screen
 
-    def update(self):
-        return None
-
     def fill(self, rgb):
         r , g, b = rgb
         self._screen.fill((r, g, b))

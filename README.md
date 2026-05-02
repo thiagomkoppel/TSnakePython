@@ -1,26 +1,49 @@
-🐍 Snake Game (Python / Pygame)
+# 🐍 Snake Game (Python / Pygame)
 
-A classic Snake game built from scratch using Python and Pygame, focusing on clean architecture, real-time game logic, and modular design.
+A classic Snake game built from scratch using **Python** and **Pygame**, with a focus on clean architecture, real-time game logic, and modular design.
 
-🎮 Features
+---
 
-  Grid-based movement system
-  Smooth, timer-driven game loop
-  Direction locking to prevent invalid turns
-  Self-collision detection (game over logic)
-  Apple spawning with collision avoidance
-  Dynamic snake growth
-  Screen wrap-around movement
-  Modular code structure (Game, Snake, Screen, Settings)
+## 🎮 Features
 
-🧠 Technical Highlights
+- Grid-based movement system  
+- Timer-driven movement using Pygame events  
+- Direction locking to prevent invalid reverse moves  
+- Self-collision detection (game over logic)  
+- Apple spawning with collision avoidance  
+- Dynamic snake growth  
+- Screen wrap-around movement  
+- Modular code structure (Game, Snake, Screen, Settings)
 
-Event-driven movement using pygame.time.set_timer()
-Frame rate control with clock.tick()
-Separation of concerns:
-  game.py → game loop & logic
-  snake.py → snake state & behavior
-  screen.py → rendering
-  settings.py → configuration & assets
-Grid system based on CELL_SIZE for consistent positioning
-Optimized rendering pipeline (single draw call per frame)
+---
+
+## 🧠 Technical Highlights
+
+- **Event-driven updates** using `pygame.time.set_timer()`  
+- **Stable frame rate control** with `clock.tick()`  
+- **Grid-based positioning** using configurable `CELL_SIZE`  
+- **Collision detection** for both snake body and apple  
+- **Clean rendering pipeline** with centralized draw logic  
+- **Separation of concerns** across modules:
+  - `game.py` → main loop & game logic  
+  - `snake.py` → snake behavior & state  
+  - `screen.py` → rendering layer  
+  - `settings.py` → configuration & assets  
+
+---
+
+## ▶️ How to Run
+
+### 1. Install dependencies
+
+```bash
+pip install pygame
+
+```bash
+python game.py
+
+🎯 Controls
+⬆️ Up Arrow
+⬇️ Down Arrow
+⬅️ Left Arrow
+➡️ Right Arrow

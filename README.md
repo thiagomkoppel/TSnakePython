@@ -34,6 +34,12 @@ A classic Snake game built from scratch using **Python** and **Pygame**, with a 
 
 ## ▶️ How to Run
 
+🎯 Controls
+⬆️ Up Arrow
+⬇️ Down Arrow
+⬅️ Left Arrow
+➡️ Right Arrow
+
 ### 1. Install dependencies
 
 ```bash
@@ -42,8 +48,4 @@ pip install pygame
 ```bash
 python game.py
 
-🎯 Controls
-⬆️ Up Arrow
-⬇️ Down Arrow
-⬅️ Left Arrow
-➡️ Right Arrow
+

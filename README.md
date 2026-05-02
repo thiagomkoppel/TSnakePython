@@ -45,7 +45,6 @@ A classic Snake game built from scratch using **Python** and **Pygame**, with a 
 ```bash
 pip install pygame
 
-```bash
 python game.py
 
 

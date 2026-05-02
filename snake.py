@@ -4,7 +4,7 @@ import settings
 class Snake:
 
     def __init__(self, position):
-        self.node = [position]
+        self._nodes = [position]
         self._dir = self.get_random_dir()
         self._head_set = None
 
@@ -12,10 +12,10 @@ class Snake:
         return random.randint(0, 3)
     
     def get_snake(self):
-        return self.node
+        return self._nodes
 
     def get_node(self, i):
-        return self.node[i]
+        return self._nodes[i]
     
     def get_dir(self):
         return self._dir
@@ -30,13 +30,11 @@ class Snake:
         self._dir = key
 
     def insert(self, index, pos):
-        self.node.insert(index, pos)
+        self._nodes.insert(index, pos)
 
     def pop(self):
-        self.node.pop()
+        self._nodes.pop()
 
-    def grow(self):
-        self.node.append(self.node[-1])
 
     
 

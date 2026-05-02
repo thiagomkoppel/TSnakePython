@@ -42,13 +42,11 @@ class Game:
                     if self.snake_hits_itself():
                         self._gameover = 0
                     elif self._snake.get_node(0) == self._apple:
-                        self.grow()
+                        self._apple = None
                         self.load_apple()
-                    
-                    self._snake.pop() #removes last node due to snake movement               
-                    self._dir_flag = True        
-                     
-
+                    else:                  
+                        self._snake.pop() #removes last node due to snake movement               
+                    self._dir_flag = True
                 elif event.type == pygame.KEYDOWN and self._dir_flag:
                     if event.key == pygame.K_RIGHT and self._snake.get_dir() != settings.DIRECTION_LEFT:
                         self._snake.set_dir(0)
@@ -61,8 +59,7 @@ class Game:
                         self._dir_flag = False
                     elif event.key == pygame.K_DOWN and self._snake.get_dir() != settings.DIRECTION_UP:
                         self._snake.set_dir(1)
-                        self._dir_flag = False
-            
+                        self._dir_flag = False            
             self.draw()      
             pygame.display.flip()
             self.set_game_status() 
@@ -79,10 +76,6 @@ class Game:
         self._head_images.append(pygame.transform.rotate(head_image, 180))
         self._head_images.append(pygame.transform.rotate(head_image, 90))
         self._head_images.append(head_image)
-
-    def grow(self):
-        self._apple = None
-        self._snake.grow()
 
     def get_random_position(self):
         while True:
@@ -132,30 +125,15 @@ class Game:
     def snake_hits_itself(self):
         head = self._snake.get_node(0)
         body = self._snake.get_snake()[1:]
-
         return head in body
-        
-    def rectangles_overlap(self, pos1, pos2, size):
-        x1, y1 = pos1
-        x2, y2 = pos2
-
-        return (
-            x1 < x2 + size and
-            x1 + size > x2 and
-            y1 < y2 + size and
-            y1 + size > y2
-        )
-    
+           
     def draw(self):
         self._screen.fill(settings.BACKGROUND_RGB)
-
         # apple
         self._screen.blit(settings.APPLE_IMAGE, self._apple)
-
         # snake body
         for segment in self._snake.get_snake()[1:]:
             self._screen.blit(settings.SNAKE_BODY_IMAGE, segment)
-
         # head
         self._screen.blit(self._snake.get_head_image(), self._snake.get_node(0))
     

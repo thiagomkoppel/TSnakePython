@@ -19,6 +19,3 @@ class Screen:
     def blit(self, image, position):
         x, y = position
         self._screen.blit(image, (x, y))
-
-    def draw_rect(self, x , y):
-        pygame.draw.rect(self._screen, (settings.BACKGROUND_RGB), (x, y, settings.CELL_SIZE, settings.CELL_SIZE))

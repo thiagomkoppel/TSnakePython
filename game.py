@@ -26,11 +26,8 @@ class Game:
         self._running = True
         clock = pygame.time.Clock()
         pygame.time.set_timer(settings.MOVE_EVENT, settings.TIMER)
-
-        while self._running:
-            
-            if not self._apple: self.load_apple()
-            
+        while self._running:            
+            if not self._apple: self.load_apple()            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self._running = False

@@ -136,8 +136,9 @@ class Game:
             self._screen.blit(settings.SNAKE_BODY_IMAGE, segment)
         # head
         self._screen.blit(self._snake.get_head_image(), self._snake.get_node(0))
-    
-game = Game()
+
+if __name__ == "__main__":    
+    game = Game()
 
 
 
